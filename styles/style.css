@@ -1,0 +1,184 @@
+@font-face {
+    font-family: "OxygenBold";
+    src: url("../fonts/Oxygen-Bold.ttf");
+}
+@font-face {
+    font-family: "ManropeBold";
+    src: url("../fonts/Manrope-Bold.ttf");
+}
+@font-face {
+    font-family: "OxygenRegular";
+    src: url("../fonts/Oxygen-Regular.ttf");
+}
+@font-face {
+    font-family: "MontserratMedium";
+    src: url("../fonts/Montserrat-Medium.ttf");
+}
+@font-face {
+    font-family: "MontserratRegular";
+    src: url("../fonts/Montserrat-Regular.ttf");
+}
+@font-face {
+    font-family: "OpenSansBold";
+    src: url("../fonts/OpenSans-Bold.ttf");
+}
+body{
+    margin:0;
+    padding: 0;
+    background-image: url(../images/47162-derevo-trava-atmosfera-oblako-utro-1920x1080.png);
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    font-family: "Roboto", "Arial", sans-serif;
+}
+.title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 36px;
+}
+.logo{
+    position: absolute;
+    top: 55px;
+}
+.logo img{
+    width: 299px;
+    height: 47px;
+    transform: scale(0.7);
+}
+.title-logo p{
+    position: relative;
+    font-family: MontserratRegular, Geneva, sans-serif;
+    color: #FFFFFF;
+    font-size: x-large;
+    margin: 0 0 0 0;
+}
+.today{
+    background: rgba(45, 43, 42, 0.19);
+    backdrop-filter: blur(19px);
+    border-radius: 25px;
+    margin-left: 3%;
+    margin-top: 3%;
+    max-width: 30%;
+    max-height: 20%;
+}
+.current-time{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-height: 20%;
+}
+.time-today p{
+    font-family: OpenSansBold, Arial, sans-serif;
+    color: #FFFFFF;
+    font-style:normal;
+    font-weight: bold;
+    margin: 0 0 0 0;
+    font-size: 6em;
+    text-shadow: 0px 4px 9px #000000;
+}
+.date-today{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.day-today{
+    font-family: MontserratMedium, Geneva, sans-serif;
+    font-style: normal;
+    font-size: x-large;
+    color: #B4B4B4;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.weekday{
+    font-family: OxygenRegular, Arial, sans-serif;
+    font-style: normal;
+    font-size: larger;
+    color: #FFFFFF;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.year{
+    font-family: MontserratMedium, Geneva, sans-serif;
+    font-style: normal;
+    font-size: x-large;
+    color: #B4B4B4;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.today-weather{
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.current-weather{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.current-weather img{
+    transform: scale(5);
+}
+.current-temperature{
+    font-family: OxygenBold, Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 4em;
+    padding-left: 22%;
+    color: #FFFFFF;
+}
+.city{
+    position: absolute;
+    font-family: MontserratMedium, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 2em;
+    color: #777575;
+    top: 50%;
+}
+.row-forecast{
+    margin-top: 6%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.forecast{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 16%;
+    height: 8.3em;
+    background: rgba(45, 43, 42, 0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 25px;
+}
+.current-forecast{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.current-forecast img{
+    transform: scale(2.6);
+}
+.forecast-temperature{
+    font-family: OxygenBold, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.1em;
+    color: #FFFFFF;
+    padding-left: 15%;
+}
+.forecast-day{
+    align-self: flex-start;
+}
+.forecast-day p{
+    font-family: ManropeBold, Regular, sans-serif;
+    font-style: normal;
+    font-size: 2em;
+    color: #FFFFFF;
+    margin: 0;
+}

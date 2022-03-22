@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href='./styles/style.css' rel='stylesheet'>
+</head>
+<body>
+    <header class="title">
+        <div class="title-logo">
+            <p>По данным сервиса</p>
+        </div>
+        <div class="logo">
+            <img src="./images/New logo Погода/New logo Погода 21-05_2021/New logo Погода белый.svg">
+        </div>
+    </header>
+    <main>
+        <div class="today">
+            <div class="current-time">
+                <div class="time-today" id="timeToday">
+                </div>
+                <div class="date-today">
+                    <div class="day-today" id="todayDayAndMonth"></div>
+                    <div class="weekday" id="todayWeekDay"></div>
+                    <div class="year" id="todayYear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="today-weather">
+            <div class="current-weather">
+                <div class="weather-image"id="currentWeather"></div>
+                <div class="current-temperature" id="currentTemperature"></div>
+            </div>
+            <div class="city" id="currentCity"></div>
+        </div>
+    </main>
+    <footer class="row-forecast" id="forecastWeek">
+    </footer>
+    <script src="./scripts/script.js"></script>
+</body>
+</html>
