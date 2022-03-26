@@ -51,7 +51,7 @@ oReq.onload = function(){
     }
   setInterval(getTime, 1000);
   getTime();
-//my current date
+//my current date :()
   let todayDateAndMonth = document.getElementById("todayDayAndMonth");
   let todayWeekDay = document.getElementById("todayWeekDay");
   let todayYear = document.getElementById("todayYear");
