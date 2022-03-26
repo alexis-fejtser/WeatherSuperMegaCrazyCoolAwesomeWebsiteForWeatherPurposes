@@ -13,7 +13,6 @@ class Userinfo{
       };
   }
 }
-
 let info = new Userinfo();
 async function getLocation(){
   let data = info.position().then(function(value){
@@ -32,6 +31,14 @@ oReq.setRequestHeader("Content-Type", "application/json");
 oReq.setRequestHeader("Access-Control-Allow-Origin","*");
 oReq.responseType = "json";
 oReq.onload = function(){
+//source of my weather
+  let source = document.getElementById("logoSource");
+  let logo = document.createElement("img");
+  logo.setAttribute("src", "./images/New logo Погода/New logo Погода 21-05_2021/New logo Погода белый.svg");
+  let open = document.createElement("a");
+  open.setAttribute("href", this.response.info.url);
+  open.appendChild(logo);
+  source.appendChild(open);
 //my current time
   let time = document.getElementById("timeToday");
   let clock = document.createElement("p");
@@ -75,7 +82,8 @@ oReq.onload = function(){
   currentCity.innerHTML = this.response.geo_object.locality.name;
 //my current forecast for a week
   let forecast = document.getElementById("forecastWeek");
-  for(let i = 0; i < 6; i++){
+  let new_weekday = 0;
+  for(let i = 1; i <= 6; i++){
     let forecastBlock = document.createElement("div");
     forecastBlock.setAttribute("class", "forecast");
     let forecastWeatherBlock = document.createElement("div");
@@ -100,11 +108,12 @@ oReq.onload = function(){
     let currentDate = new Date();
     let weekdays = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
     let weekday = currentDate.getDay();
-    
-    if (weekday + i + 1 > 6) {
-      currentDayForecastText.innerHTML = weekdays[i - weekday - 2];
+    console.log(weekday);
+    if((weekday + i) >= 7 ){
+      currentDayForecastText.innerHTML = weekdays[new_weekday];
+      new_weekday++;
     } else {
-      currentDayForecastText.innerHTML = weekdays[weekday + i + 1];
+      currentDayForecastText.innerHTML = weekdays[weekday + i];
     }
   }
   //test
