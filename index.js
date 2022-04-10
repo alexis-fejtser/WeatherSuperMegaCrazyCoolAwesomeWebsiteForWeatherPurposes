@@ -18,7 +18,7 @@ toxa.post('/', function(reques, response){
    app.use(cors());
    app.get('/', function(req, res){
      request({
-       url: `https://api.weather.yandex.ru/v2/forecast?lat=${reques.body.lat}&lon=${reques.body.lon}&[lang=ru_RU]`,
+       url: `https://api.weather.yandex.ru/v2/forecast?lat=${reques.body.lat}&lon=${reques.body.lon}&lang=ru_RU&extra=true`,
        headers: { 'X-Yandex-API-Key': 'be6a36a0-1592-48b8-bbb5-45f4f6839d62' },
        },
        function(err, resp, body){
