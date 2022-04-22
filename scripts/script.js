@@ -81,12 +81,9 @@ oReq.onload = function(oReq){
   let currentCity = document.getElementById("currentCity");
   currentCity.innerHTML = this.response.geo_object.locality.name;
 //my current forecast for a week
-  let forecast = document.getElementById("forecastWeek");
   let new_weekday = 0;
-  for(let i = 1; i <= 6; i++){
-    let forecastButton = document.createElement("button");
-    forecastButton.setAttribute("class", "forecast-button");
-    forecastButton.setAttribute("id", `button_${i}`);
+  let forecast = document.getElementById("forecastWeek");
+  function getForecast(num, data, appending){
     let forecastBlock = document.createElement("div");
     forecastBlock.setAttribute("class", "forecast");
     let forecastWeatherBlock = document.createElement("div");
@@ -99,38 +96,42 @@ oReq.onload = function(oReq){
     let currentForecastTemperature = document.createElement("div");
     currentForecastTemperature.setAttribute("class", "forecast-temperature");
     let currentForecastIcon = document.createElement("img");    
-    currentForecastTemperature.innerHTML = "+" + this.response.forecasts[i].parts.day.temp_avg + "°С";
-    currentForecastIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i].parts.day.icon}.svg`);
+    currentForecastTemperature.innerHTML = "+" + data.response.forecasts[num].parts.day.temp_avg + "°С";
+    currentForecastIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.response.forecasts[num].parts.day.icon}.svg`);
     currentForecastBlock.appendChild(currentForecastTemperature);
     currentForecastBlock.prepend(currentForecastIcon);
     forecastDayBlock.appendChild(currentDayForecastText);
     forecastWeatherBlock.appendChild(forecastDayBlock);
     forecastWeatherBlock.appendChild(currentForecastBlock);
     forecastBlock.appendChild(forecastWeatherBlock);
-    forecastButton.appendChild(forecastBlock);
-    forecast.appendChild(forecastButton);
+    appending.appendChild(forecastBlock);
     let currentDate = new Date();
     let weekdays = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
     let weekday = currentDate.getDay();
-    console.log(weekday);
-    if((weekday + i) >= 7 ){
+    currentDayForecastText.innerHTML = weekdays[weekday+1+num];
+    if(currentDayForecastText.textContent == "undefined"){
       currentDayForecastText.innerHTML = weekdays[new_weekday];
       new_weekday++;
-    } else {
-      currentDayForecastText.innerHTML = weekdays[weekday + i];
     }
   }
+  for(let i = 0; i < 6; i++){
+    let forecastButton = document.createElement("button");
+    forecastButton.setAttribute("class", "forecast-button");
+    forecastButton.setAttribute("id", `button_${i}`);
+    getForecast(i, this, forecastButton);
+    forecast.appendChild(forecastButton);
+  } 
 //creating some blocks for my jquery animation
-  for(let i = 1; i <= 6; i++){
+  for(let i = 0; i < 6; i++){
     let logo = document.createElement("img");
     logo.setAttribute("src", "./images/New logo Погода/New logo Погода 21-05_2021/New logo Погода белый.svg");
     let open = document.createElement("a");
     open.setAttribute("href", this.response.info.url);
     let avgTemp = document.createElement("p");
-    avgTemp.innerHTML = `${this.response.forecasts[i].parts.day.temp_avg}°С`;
+    avgTemp.innerHTML = `${this.response.forecasts[i+1].parts.day.temp_avg}°С`;
     let avgWind = document.createElement("p");
-    avgWind.innerHTML = `${this.response.forecasts[i].parts.day.wind_speed}`;
-    switch(this.response.forecasts[i].parts.day.wind_dir){
+    avgWind.innerHTML = `${this.response.forecasts[i+1].parts.day.wind_speed}`;
+    switch(this.response.forecasts[i+1].parts.day.wind_dir){
       case "nw":
         avgWind.innerHTML = `${avgWind.textContent} м/с, СЗ`;
         break;
@@ -160,120 +161,149 @@ oReq.onload = function(oReq){
         break;
     }
     let avgWater = document.createElement("p");
-    avgWater.innerHTML = `${this.response.forecasts[i].parts.day.prec_mm} мм.`;
+    avgWater.innerHTML = `${this.response.forecasts[i+1].parts.day.prec_mm} мм.`;
     let avgPressure = document.createElement("p");
-    avgPressure.innerHTML = `${this.response.forecasts[i].parts.day.pressure_mm} мм. рт. ст.`;
+    avgPressure.innerHTML = `${this.response.forecasts[i+1].parts.day.pressure_mm} мм. рт. ст.`;
     let avgHumigity = document.createElement("p");
-    avgHumigity.innerHTML = `${this.response.forecasts[i].parts.day.humidity}%`;
+    avgHumigity.innerHTML = `${this.response.forecasts[i+1].parts.day.humidity}%`;
 
     let avgTempMorning = document.createElement("span");
-    avgTempMorning.innerHTML = `${this.response.forecasts[i].parts.morning.temp_avg}°С`;
+    avgTempMorning.innerHTML = `${this.response.forecasts[i+1].parts.morning.temp_avg}°С`;
     let forecastMorningIcon = document.createElement("img");
-    forecastMorningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i].parts.morning.icon}.svg`);
+    forecastMorningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.morning.icon}.svg`);
     let avgTempDay = document.createElement("span");
-    avgTempDay.innerHTML = `${this.response.forecasts[i].parts.day.temp_avg}°С`;
+    avgTempDay.innerHTML = `${this.response.forecasts[i+1].parts.day.temp_avg}°С`;
     let forecastDayIcon = document.createElement("img");
-    forecastDayIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i].parts.day.icon}.svg`);
+    forecastDayIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.day.icon}.svg`);
     let avgTempEvening = document.createElement("span");
-    avgTempEvening.innerHTML = `${this.response.forecasts[i].parts.evening.temp_avg}°С`;
+    avgTempEvening.innerHTML = `${this.response.forecasts[i+1].parts.evening.temp_avg}°С`;
     let forecastEveningIcon = document.createElement("img");
-    forecastEveningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i].parts.evening.icon}.svg`);
+    forecastEveningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.evening.icon}.svg`);
     let avgTempNight = document.createElement("span");
-    avgTempNight.innerHTML = `${this.response.forecasts[i].parts.night.temp_avg}°С`;
+    avgTempNight.innerHTML = `${this.response.forecasts[i+1].parts.night.temp_avg}°С`;
     let forecastNightIcon = document.createElement("img");
-    forecastNightIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i].parts.night.icon}.svg`)
+    forecastNightIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.night.icon}.svg`)
     
 //WELCOME TO JQUERY'S .ANIMATE(), dude
+    let $coordButton;
+    let buttonToggleCounter = 0;
+    let data = this;
     $(`#button_${i}`).on("click", function(){
-      let $coordButton = $(`#button_${i}`).offset();
-      $(`#button_${i}`).css("position","fixed");
-      $(`#button_${i}`).offset($coordButton);
-      $(`#button_${i}`).animate({
-        'left': '5%',
-        'top': "8%",
-        'opacity': 1,
-        'height': '47em',
-        'width': '90%',
-        }, 500, null, function(){//this function work after my animation and it append some content in my block
-        $(`#button_${i}`).html(`<div class="currentForecastForDayInterface">
-                                <div class="title">
-                                  <div class="title-logoButton">
-                                      <p>По данным сервиса</p>
-                                  </div>
-                                  <div class="logo" id="logoSourceButton"></div>
-                                </div>
-                                <div class="currentForecastForDay">
-                                  <div class="forecastData">
-                                    <div id="avg_temp"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_temp.svg'/></div>
-                                    <div id="wind"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_wind.svg'/></div>
-                                    <div id="water"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_water.svg'/></div>
-                                    <div id="pressure"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_pressure.svg'/></div>
-                                    <div id="humidity"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_humidity.svg'/></div>             
-                                  </div>
-                                  <div class="phaseOfDay">
-                                    <div class="phase">
-                                      <div class="phaseTemp" id="morningTemp"></div>
-                                      <div id="morningImg"></div>
-                                      <div class="nameOfPhase">Утро</div>
-                                    </div>
-                                    <div class="phase">
-                                      <div class="phaseTemp" id="dayTemp"></div>
-                                      <div id="dayImg"></div>
-                                      <div class="nameOfPhase">День</div>
-                                    </div>
-                                    <div class="phase">
-                                      <div class="phaseTemp" id="eveningTemp"></div>
-                                      <div id="eveningImg"></div>
-                                      <div class="nameOfPhase">Вечер</div>
-                                    </div>
-                                    <div class="phase">
-                                      <div class="phaseTemp" id="nightTemp"></div>
-                                      <div id="nightImg"></div>
-                                      <div class="nameOfPhase">Ночь</div>
-                                    </div>
-                                  </div>       
-                                </div>
-                              </div>`);
-        let source = document.getElementById("logoSourceButton");
-        open.appendChild(logo);
-        source.appendChild(open);
-        let temp = document.getElementById("avg_temp");
-        temp.appendChild(avgTemp);
-        let wind = document.getElementById("wind");
-        wind.appendChild(avgWind);
-        let water = document.getElementById("water");
-        water.appendChild(avgWater);
-        let pressure = document.getElementById("pressure");
-        pressure.appendChild(avgPressure);
-        let humidity = document.getElementById("humidity");
-        humidity.appendChild(avgHumigity);
-
-        let morningTemp = document.getElementById("morningTemp");
-        let morningImg = document.getElementById("morningImg");
-        morningImg.prepend(forecastMorningIcon);
-        morningTemp.prepend(avgTempMorning);
-
-        let dayTemp = document.getElementById("dayTemp");
-        let dayImg = document.getElementById("dayImg");
-        dayImg.prepend(forecastDayIcon);
-        dayTemp.prepend(avgTempDay);
-
-        let eveningTemp = document.getElementById("eveningTemp");
-        let eveningImg = document.getElementById("eveningImg");
-        eveningImg.prepend(forecastEveningIcon);
-        eveningTemp.prepend(avgTempEvening);
-
-        let nightTemp = document.getElementById("nightTemp");
-        let nightImg = document.getElementById("nightImg");
-        nightImg.prepend(forecastNightIcon);
-        nightTemp.prepend(avgTempNight);
-      });//this is end of my jquery animation
-      $("header").hide();
-      $("main").hide();
-      $("button").hide();
-      $(`#button_${i}`).empty();
-      $(`#button_${i}`).show();
-  });
+      buttonToggleCounter++;
+      if(buttonToggleCounter == 1){
+        $(`#button_${i}`).prop("disabled",true);
+        $coordButton = $(`#button_${i}`).offset();
+        $(`#button_${i}`).css("position","fixed");
+        $(`#button_${i}`).offset($coordButton);
+        $(`#button_${i}`).animate({
+          'left': '5%',
+          'top': "8%",
+          'opacity': 1,
+          'height': '47em',
+          'width': '90%',
+          }, 400, null, function(){//this function work after my animation and it append some content in my block
+                          $(`#button_${i}`).prop("disabled",false); 
+                          $(`#button_${i}`).html(`<div class="currentForecastForDayInterface">
+                                                  <div class="title">
+                                                    <div class="title-logoButton">
+                                                        <p>По данным сервиса</p>
+                                                    </div>
+                                                    <div class="logo" id="logoSourceButton"></div>
+                                                  </div>
+                                                  <div class="currentForecastForDay">
+                                                    <div class="forecastData">
+                                                      <div id="avg_temp"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_temp.svg'/></div>
+                                                      <div id="wind"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_wind.svg'/></div>
+                                                      <div id="water"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_water.svg'/></div>
+                                                      <div id="pressure"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_pressure.svg'/></div>
+                                                      <div id="humidity"><img src='./images/icons/иконки давления_влажности_ветра цветные для темного фона/ic_humidity.svg'/></div>             
+                                                    </div>
+                                                    <div class="phaseOfDay">
+                                                      <div class="phase">
+                                                        <div class="phaseTemp" id="morningTemp"></div>
+                                                        <div id="morningImg"></div>
+                                                        <div class="nameOfPhase">Утро</div>
+                                                      </div>
+                                                      <div class="phase">
+                                                        <div class="phaseTemp" id="dayTemp"></div>
+                                                        <div id="dayImg"></div>
+                                                        <div class="nameOfPhase">День</div>
+                                                      </div>
+                                                      <div class="phase">
+                                                        <div class="phaseTemp" id="eveningTemp"></div>
+                                                        <div id="eveningImg"></div>
+                                                        <div class="nameOfPhase">Вечер</div>
+                                                      </div>
+                                                      <div class="phase">
+                                                        <div class="phaseTemp" id="nightTemp"></div>
+                                                        <div id="nightImg"></div>
+                                                        <div class="nameOfPhase">Ночь</div>
+                                                      </div>
+                                                    </div>       
+                                                  </div>
+                                                </div>`
+          );
+          let source = document.getElementById("logoSourceButton");
+          open.appendChild(logo);
+          source.appendChild(open);
+          let temp = document.getElementById("avg_temp");
+          temp.appendChild(avgTemp);
+          let wind = document.getElementById("wind");
+          wind.appendChild(avgWind);
+          let water = document.getElementById("water");
+          water.appendChild(avgWater);
+          let pressure = document.getElementById("pressure");
+          pressure.appendChild(avgPressure);
+          let humidity = document.getElementById("humidity");
+          humidity.appendChild(avgHumigity);
+          let morningTemp = document.getElementById("morningTemp");
+          let morningImg = document.getElementById("morningImg");
+          morningImg.prepend(forecastMorningIcon);
+          morningTemp.prepend(avgTempMorning);
+          let dayTemp = document.getElementById("dayTemp");
+          let dayImg = document.getElementById("dayImg");
+          dayImg.prepend(forecastDayIcon);
+          dayTemp.prepend(avgTempDay);
+          let eveningTemp = document.getElementById("eveningTemp");
+          let eveningImg = document.getElementById("eveningImg");
+          eveningImg.prepend(forecastEveningIcon);
+          eveningTemp.prepend(avgTempEvening);
+          let nightTemp = document.getElementById("nightTemp");
+          let nightImg = document.getElementById("nightImg");
+          nightImg.prepend(forecastNightIcon);
+          nightTemp.prepend(avgTempNight);
+        });//this is end of my jquery animation
+        $("header").hide();
+        $("main").hide();
+        $("button").hide();
+        $(`#button_${i}`).empty();
+        $(`#button_${i}`).show();
+      } else {
+        $(`#button_${i}`).empty();
+        $(`#button_${i}`).prop("disabled", true);
+        $(`#button_${i}`).animate({
+          "left": `${$coordButton.left}`,
+          "top": `${$coordButton.top}`,
+          "width": "16%",
+          "height": "8.3em",
+          "background": "rgba(45, 43, 42, 0.5)",
+          "backdrop-filter": "blur(5px)",
+          "border-radius": "25px",
+        }, 400, null, function(){
+                        $(`#button_${i}`).prop("disabled",false);
+                        $(`#button_${i}`).css("position","relative");
+                        $(`#button_${i}`).css("left","0px");
+                        $(`#button_${i}`).css("top","0px");
+                        new_weekday = 0;
+                        getForecast(i, data, document.getElementById(`button_${i}`));
+                        $("header").show();
+                        $("main").show();
+                        $("button").show();
+                      }
+        );
+        buttonToggleCounter = 0;
+      }
+    });
   }
   //test
   console.log($);
