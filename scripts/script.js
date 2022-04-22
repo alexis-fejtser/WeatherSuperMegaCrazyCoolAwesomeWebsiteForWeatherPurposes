@@ -31,6 +31,28 @@ oReq.setRequestHeader("Content-Type", "application/json");
 oReq.setRequestHeader("Access-Control-Allow-Origin","*");
 oReq.responseType = "json";
 oReq.onload = function(oReq){
+//making beautiful background
+function getBackground(){
+  let currentDate = new Date();
+  console.log(currentDate.getHours());
+  if(currentDate.getHours() < 6){
+    document.body.style.backgroundImage = "url(../images/backgrounds/night_bg.png)";
+  } else if (currentDate.getHours() >= 6 && currentDate.getHours() < 12){
+    document.body.style.backgroundImage = "url(../images/backgrounds/morning_bg.png)";
+  } else if (currentDate.getHours() >= 12 && currentDate.getHours() < 18){
+    document.body.style.backgroundImage = "url(../images/backgrounds/day_bg.png)";
+  } else if (currentDate.getHours() >= 18){
+    document.body.style.backgroundImage = "url(./images/backgrounds/evening_bg.png)";
+  }
+}
+setInterval(getBackground, 1000);
+getBackground();
+//making header
+  let header = document.getElementById("header");
+  let title = document.createElement("div");
+  title.setAttribute("class","title-logo");
+  title.innerHTML = "По данным сервиса";
+  header.appendChild(title);
 //source of my weather
   let source = document.getElementById("logoSource");
   let logo = document.createElement("img");
