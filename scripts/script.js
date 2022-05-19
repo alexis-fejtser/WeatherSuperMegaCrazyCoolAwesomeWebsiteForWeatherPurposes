@@ -13,9 +13,9 @@ class Userinfo{
       };
   }
 }
-let info = new Userinfo();
+let user = new Userinfo();
 async function getLocation(){
-  let data = info.position().then(function(value){
+  let data = user.position().then(function(value){
     console.log(value);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://127.0.0.1:3000/", true);
@@ -25,45 +25,47 @@ async function getLocation(){
   });
 }
 getLocation();  
-let oReq = new XMLHttpRequest({mozAnon: true, mozSystem: true});
-oReq.open("GET", "http://127.0.0.1:7000/", true);
-oReq.setRequestHeader("Content-Type", "application/json");
-oReq.setRequestHeader("Access-Control-Allow-Origin","*");
-oReq.responseType = "json";
-oReq.onload = function(oReq){
+
+$.getJSON('http://127.0.0.1:7000/', function(data) {
+  console.log(data);
 //making beautiful background
-function getBackground(){
-  let currentDate = new Date();
-  console.log(currentDate.getHours());
-  if(currentDate.getHours() < 6){
-    document.body.style.backgroundImage = "url(../images/backgrounds/night_bg.png)";
-  } else if (currentDate.getHours() >= 6 && currentDate.getHours() < 12){
-    document.body.style.backgroundImage = "url(../images/backgrounds/morning_bg.png)";
-  } else if (currentDate.getHours() >= 12 && currentDate.getHours() < 18){
-    document.body.style.backgroundImage = "url(../images/backgrounds/day_bg.png)";
-  } else if (currentDate.getHours() >= 18){
-    document.body.style.backgroundImage = "url(./images/backgrounds/evening_bg.png)";
+  function getBackground(){
+    let currentDate = new Date();
+    if(currentDate.getHours() < 6){
+      document.body.style.backgroundImage = "url(../images/backgrounds/night_bg.png)";
+    } else if (currentDate.getHours() >= 6 && currentDate.getHours() < 12){
+      document.body.style.backgroundImage = "url(../images/backgrounds/morning_bg.png)";
+    } else if (currentDate.getHours() >= 12 && currentDate.getHours() < 18){
+      document.body.style.backgroundImage = "url(../images/backgrounds/day_bg.png)";
+    } else if (currentDate.getHours() >= 18){
+      document.body.style.backgroundImage = "url(./images/backgrounds/evening_bg.png)";
+    }
   }
-}
-setInterval(getBackground, 1000);
-getBackground();
+  setInterval(getBackground, 1000);
+  getBackground();
 //making header
-  let header = document.getElementById("header");
+  let header = document.getElementById("title");
   let title = document.createElement("div");
-  title.setAttribute("class","title-logo");
+  title.setAttribute("class","infoService");
   title.innerHTML = "По данным сервиса";
-  header.appendChild(title);
+  header.prepend(title);
+//weather map Button
+  let mapButton = document.createElement("div");
+  mapButton.setAttribute("class","openMap");
+  mapButton.setAttribute("id","openMap");
+  mapButton.innerHTML = "Открыть карту";
+  header.appendChild(mapButton);
 //source of my weather
   let source = document.getElementById("logoSource");
   let logo = document.createElement("img");
   logo.setAttribute("src", "./images/New logo Погода/New logo Погода 21-05_2021/New logo Погода белый.svg");
   let open = document.createElement("a");
-  open.setAttribute("href", this.response.info.url);
+  open.setAttribute("href", data.info.url);
   open.appendChild(logo);
   source.appendChild(open);
 //my current time
   let time = document.getElementById("timeToday");
-  let clock = document.createElement("p");
+  let clock = document.createElement("h1");
   time.prepend(clock);
   function getTime(){
       let currentDate = new Date();
@@ -96,12 +98,12 @@ getBackground();
 //my current weather
   let currentWeather = document.getElementById("currentWeather");
   let currentWeatherIcon = document.createElement("img");
-  currentWeatherIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.fact.icon}.svg`);
+  currentWeatherIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.fact.icon}.svg`);
   let temperature = document.getElementById("currentTemperature");
-  temperature.innerHTML = "+" + this.response.fact.temp + "°С";
+  temperature.innerHTML = "+" + data.fact.temp + "°С";
 //my current city
   let currentCity = document.getElementById("currentCity");
-  currentCity.innerHTML = this.response.geo_object.locality.name;
+  currentCity.innerHTML = data.geo_object.locality.name;
 //my current forecast for a week
   let new_weekday = 0;
   let forecast = document.getElementById("forecastWeek");
@@ -118,8 +120,8 @@ getBackground();
     let currentForecastTemperature = document.createElement("div");
     currentForecastTemperature.setAttribute("class", "forecast-temperature");
     let currentForecastIcon = document.createElement("img");    
-    currentForecastTemperature.innerHTML = "+" + data.response.forecasts[num].parts.day.temp_avg + "°С";
-    currentForecastIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.response.forecasts[num].parts.day.icon}.svg`);
+    currentForecastTemperature.innerHTML = "+" + data.forecasts[num].parts.day.temp_avg + "°С";
+    currentForecastIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.forecasts[num].parts.day.icon}.svg`);
     currentForecastBlock.appendChild(currentForecastTemperature);
     currentForecastBlock.prepend(currentForecastIcon);
     forecastDayBlock.appendChild(currentDayForecastText);
@@ -133,14 +135,14 @@ getBackground();
     currentDayForecastText.innerHTML = weekdays[weekday+1+num];
     if(currentDayForecastText.textContent == "undefined"){
       currentDayForecastText.innerHTML = weekdays[new_weekday];
-      new_weekday++;
     }
   }
   for(let i = 0; i < 6; i++){
     let forecastButton = document.createElement("button");
     forecastButton.setAttribute("class", "forecast-button");
     forecastButton.setAttribute("id", `button_${i}`);
-    getForecast(i, this, forecastButton);
+    new_weekday++;
+    getForecast(i, data, forecastButton);
     forecast.appendChild(forecastButton);
   } 
 //creating some blocks for my jquery animation
@@ -148,12 +150,12 @@ getBackground();
     let logo = document.createElement("img");
     logo.setAttribute("src", "./images/New logo Погода/New logo Погода 21-05_2021/New logo Погода белый.svg");
     let open = document.createElement("a");
-    open.setAttribute("href", this.response.info.url);
+    open.setAttribute("href", data.info.url);
     let avgTemp = document.createElement("p");
-    avgTemp.innerHTML = `${this.response.forecasts[i+1].parts.day.temp_avg}°С`;
+    avgTemp.innerHTML = `${data.forecasts[i+1].parts.day.temp_avg}°С`;
     let avgWind = document.createElement("p");
-    avgWind.innerHTML = `${this.response.forecasts[i+1].parts.day.wind_speed}`;
-    switch(this.response.forecasts[i+1].parts.day.wind_dir){
+    avgWind.innerHTML = `${data.forecasts[i+1].parts.day.wind_speed}`;
+    switch(data.forecasts[i+1].parts.day.wind_dir){
       case "nw":
         avgWind.innerHTML = `${avgWind.textContent} м/с, СЗ`;
         break;
@@ -183,33 +185,32 @@ getBackground();
         break;
     }
     let avgWater = document.createElement("p");
-    avgWater.innerHTML = `${this.response.forecasts[i+1].parts.day.prec_mm} мм.`;
+    avgWater.innerHTML = `${data.forecasts[i+1].parts.day.prec_mm} мм.`;
     let avgPressure = document.createElement("p");
-    avgPressure.innerHTML = `${this.response.forecasts[i+1].parts.day.pressure_mm} мм. рт. ст.`;
+    avgPressure.innerHTML = `${data.forecasts[i+1].parts.day.pressure_mm} мм. рт. ст.`;
     let avgHumigity = document.createElement("p");
-    avgHumigity.innerHTML = `${this.response.forecasts[i+1].parts.day.humidity}%`;
+    avgHumigity.innerHTML = `${data.forecasts[i+1].parts.day.humidity}%`;
 
     let avgTempMorning = document.createElement("span");
-    avgTempMorning.innerHTML = `${this.response.forecasts[i+1].parts.morning.temp_avg}°С`;
+    avgTempMorning.innerHTML = `${data.forecasts[i+1].parts.morning.temp_avg}°С`;
     let forecastMorningIcon = document.createElement("img");
-    forecastMorningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.morning.icon}.svg`);
+    forecastMorningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.forecasts[i+1].parts.morning.icon}.svg`);
     let avgTempDay = document.createElement("span");
-    avgTempDay.innerHTML = `${this.response.forecasts[i+1].parts.day.temp_avg}°С`;
+    avgTempDay.innerHTML = `${data.forecasts[i+1].parts.day.temp_avg}°С`;
     let forecastDayIcon = document.createElement("img");
-    forecastDayIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.day.icon}.svg`);
+    forecastDayIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.forecasts[i+1].parts.day.icon}.svg`);
     let avgTempEvening = document.createElement("span");
-    avgTempEvening.innerHTML = `${this.response.forecasts[i+1].parts.evening.temp_avg}°С`;
+    avgTempEvening.innerHTML = `${data.forecasts[i+1].parts.evening.temp_avg}°С`;
     let forecastEveningIcon = document.createElement("img");
-    forecastEveningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.evening.icon}.svg`);
+    forecastEveningIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.forecasts[i+1].parts.evening.icon}.svg`);
     let avgTempNight = document.createElement("span");
-    avgTempNight.innerHTML = `${this.response.forecasts[i+1].parts.night.temp_avg}°С`;
+    avgTempNight.innerHTML = `${data.forecasts[i+1].parts.night.temp_avg}°С`;
     let forecastNightIcon = document.createElement("img");
-    forecastNightIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${this.response.forecasts[i+1].parts.night.icon}.svg`)
+    forecastNightIcon.setAttribute("src", `./images/icons/цветные белые сплошные/${data.forecasts[i+1].parts.night.icon}.svg`)
     
 //WELCOME TO JQUERY'S .ANIMATE(), dude
     let $coordButton;
     let buttonToggleCounter = 0;
-    let data = this;
     $(`#button_${i}`).on("click", function(){
       buttonToggleCounter++;
       if(buttonToggleCounter == 1){
@@ -327,10 +328,64 @@ getBackground();
       }
     });
   }
+//using API Yandex.Maps
+  ymaps.ready(init);
+  function init(){
+    $('#openMap').on("click", function(){
+      $("header").hide();
+      $("button").hide();
+      $('.today').hide();
+      $('.today-weather').hide();
+      let mapBlock = document.createElement("div");
+      mapBlock.setAttribute("class", "mapBlock");
+      mapBlock.setAttribute("id","map");
+      let main = document.getElementById("main");
+      main.prepend(mapBlock);
+      $('#map').hide();
+      $('#map').fadeIn(1000);
+      async function openMap(){
+        let data = user.position().then(function(value){
+          let map = new ymaps.Map("map", {
+            center: [value.lat, value.lon],
+            zoom: 16
+          });
+          let searchControl = new ymaps.control.SearchControl({
+            options: {
+              kind: 'locality',
+              float: 'right',
+              floatIndex: 100,
+              noPlacemark: true,
+              noPopup: true,
+              provider: 'yandex#map'
+            }
+          });
+          map.controls.add(searchControl);
+          map.events.add('click', function (e) {
+            
+            let coords = {
+              lon: e.get('coords')[1],
+              lat: e.get('coords')[0]
+            };
+            console.log(coords);
+            let req = new XMLHttpRequest({mozAnon: true, mozSystem: true});
+            req.open("POST", "http://127.0.0.1:3000", true);
+            req.setRequestHeader("Content-type", "application/json");
+            req.setRequestHeader("Access-Control-Allow-Origin","*");
+            req.send(JSON.stringify(coords));
+            let port = 7000;
+            $.getJSON(`http://127.0.0.1:${port++}/`, function(data) {
+              console.log(data);
+              window.location.reload();
+            });
+          });
+        });
+      }
+      openMap();// Создание карты.
+    });
+  }
   //test
   console.log($);
-  let weather = this.response;
+  let weather = data;
   currentWeather.prepend(currentWeatherIcon);
   console.log(weather);
-};
-oReq.send();
+});

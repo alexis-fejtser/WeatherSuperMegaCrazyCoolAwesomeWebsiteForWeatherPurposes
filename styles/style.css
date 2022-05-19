@@ -22,60 +22,93 @@
     font-family: "OpenSansBold";
     src: url("../fonts/OpenSans-Bold.ttf");
 }
+@media (max-width: 1279px) {
+    .today{
+        margin-left: 34.5%;
+    }
+}
+@media (min-width: 1280px) and (max-width: 1920px){
+    .today{
+        margin-left: 3%;
+    }
+}
 body{
-    margin:0;
-    padding: 0;
     background-image: url("../images/backgrounds/waiting.jpg");
     background-attachment: fixed;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     font-family: "Roboto", "Arial", sans-serif;
 }
+.header{
+    margin-top: 1em;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 .title{
+    position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 36px;
+    width: 70%;
 }
 .logo{
     position: absolute;
-    top: 55px;
+    top: 60%;
 }
 .logo img{
-    width: 299px;
-    height: 47px;
+    max-width: 100%;
+    max-height: 3em;
     transform: scale(0.7);
 }
-.title-logo{
-    position: relative;
+.infoService{
     font-family: MontserratRegular, Geneva, sans-serif;
     color: #FFFFFF;
-    font-size: x-large;
-    margin: 0 0 0 0;
+    font-size: 1.5em;
+}
+.openMap{
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    background: none;
+    border: 0;
+    width: fit-content;
+    font-family: 'MontserratMedium';    
+    font-size: 1.5em;
+    color: #777575;
+}
+.openMap:hover{
+    color: #383232;
+}
+.mapBlock{
+    position: absolute;
+    left: 15%;
+    top: 10%;
+    width: 70%; 
+    height: 80%;
+    border-radius: 25px;
 }
 .today{
     background: rgba(45, 43, 42, 0.19);
     backdrop-filter: blur(19px);
     border-radius: 25px;
-    margin-left: 3%;
-    margin-top: 3%;
+    margin-top:5%;
     max-width: 30%;
     max-height: 20%;
-}
-.current-time{
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: center;
-    max-height: 20%;
+    align-items: center;
 }
-.time-today p{
+.time-today h1{
     font-family: OpenSansBold, Arial, sans-serif;
     color: #FFFFFF;
-    font-style:normal;
-    font-weight: bold;
+    font-style: normal;
     margin: 0 0 0 0;
-    font-size: 6em;
+    font-size: 5em;
     text-shadow: 0px 4px 9px #000000;
 }
 .date-today{
@@ -104,6 +137,7 @@ body{
     color: #B4B4B4;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
 .today-weather{
     margin-top: 5%;
     display: flex;
@@ -130,19 +164,21 @@ body{
     color: #FFFFFF;
 }
 .city{
-    position: absolute;
+    position: relative;
     font-family: MontserratMedium, Arial, sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 2em;
     color: #777575;
-    top: 50%;
+    margin-top: -1.5%;
 }
+
+
 .row-forecast{
     overflow: visible;
-    position: absolute;
+    position: relative;
     width: 100%;
-    top: 70%;
+    margin-top: 9%;
     display: flex;
     flex-direction: row;
     align-items:stretch;

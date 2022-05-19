@@ -2,17 +2,20 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
     <title>Document</title>
     <link href='./styles/style.css' rel='stylesheet'>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=117460ee-17e7-4d7a-8103-f588b3302836&lang=ru_RU&load=Map,control.SearchControl" type="text/javascript"></script>
 </head>
 <body>
-    <header class="title" id="header">
-        <div class="logo" id="logoSource"></div>
+    <header class="header" id="header">
+        <div class="title" id="title">
+            <div class="logo" id="logoSource"></div>
+        </div>
     </header>
-    <main>
+    <main id="main">
         <div class="today">
-            <div class="current-time">
                 <div class="time-today" id="timeToday">
                 </div>
                 <div class="date-today">
@@ -20,7 +23,6 @@
                     <div class="weekday" id="todayWeekDay"></div>
                     <div class="year" id="todayYear"></div>
                 </div>
-            </div>
         </div>
         <div class="today-weather">
             <div class="current-weather">
@@ -32,6 +34,7 @@
     </main>
     <footer class="row-forecast" id="forecastWeek">
     </footer>
+    
     <script src="./scripts/script.js"></script>
 </body>
 </html>
